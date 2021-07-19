@@ -1,4 +1,4 @@
-from .Net import Resnet34
+from .Net import Levit_128s
 import numpy as np
 import torch
 from PIL import Image
@@ -13,7 +13,7 @@ class Controller(object):
         # set model path
         if model_path is None:
             curr_dir = pathlib.Path(__file__).parent.absolute()
-            model_path = osp.join(curr_dir, '../assets/levit_128s.pth')
+            model_path = osp.join(curr_dir, '../assets/levit_128s.pt')
 
         # set distribution class list
         distribution_classes = [
@@ -26,7 +26,7 @@ class Controller(object):
         self.distribution_classes = distribution_classes
         self.device = torch.device("cuda:{}".format(gpu_id) if torch.cuda.is_available() else "cpu")
         # 模型定义和加载
-        self.model = Resnet34(n_classes=n_classes,pretrained=False) 
+        self.model = Levit_128s(n_classes=n_classes,pretrained=False) 
         self.model.load_state_dict(torch.load(model_path))
         self.model.to(self.device)
         self.model.eval()
